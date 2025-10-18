@@ -1,0 +1,13 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "testing-suspense"
+main = "./worker/main.ts"
+compatibility_flags = ["nodejs_compat", "nodejs_als"]
+compatibility_date = "2025-06-15"
+
+[vars]
+FAKE_STORE_API_URL = "https://fakestoreapi.com"
+
+[observability.logs]
+enabled = true
+
+## No KV needed: Ruwuter serves on-demand client handlers via static hrefs

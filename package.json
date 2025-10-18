@@ -1,0 +1,38 @@
+{
+  "name": "squarehole-example",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "cf-typegen": "wrangler types",
+    "typecheck": "tsgo -p tsconfig.json",
+    "lint": "pnpm run \"/^lint:/\"",
+    "lint:eslint": "eslint app",
+    "lint:oxlint": "oxlint app",
+    "build": "vite build",
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.13.12",
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/node": "^24.7.1",
+    "@typescript/native-preview": "7.0.0-dev.20251010.1",
+    "eslint": "^9.37.0",
+    "eslint-plugin-better-tailwindcss": "^3.7.9",
+    "eslint-plugin-oxlint": "^1.22.0",
+    "oxlint": "^1.22.0",
+    "prettier": "^3.6.0",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0",
+    "vite": "npm:rolldown-vite@latest",
+    "wrangler": "^4.42.2"
+  },
+  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+  "dependencies": {
+    "@mewhhaha/ruwuter": "jsr:^0.1.10",
+    "arktype": "^2.1.22",
+    "clsx": "^2.1.1"
+  }
+}
