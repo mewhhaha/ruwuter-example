@@ -1,19 +1,8 @@
-import { Suspense, ref, on } from "@mewhhaha/ruwuter/components";
-import { query } from "../utils/query";
+import { Suspense, ref } from "@mewhhaha/ruwuter/components";
+import { query } from "../../utils/query";
 import clsx from "clsx";
-import type { Route as t } from "../../.router/types/app/routes/+types.products";
-
-// Exported handler; routes generator will annotate with an href for on-demand loading
-// and the client runtime will bind `this` to the provided `bind={{ count }}` object.
-// Update the displayed count after incrementing and reflect it in the UI.
-export const click = on(function click(this: any, ev: Event) {
-  if (this && typeof this.count?.set === "function") {
-    this.count.set((v: number) => (typeof v === "number" ? v + 1 : 1));
-    const el = ev.currentTarget as HTMLElement | null;
-    const span = el?.querySelector(".tabular-nums");
-    if (span) span.textContent = String(this.count.get());
-  }
-});
+import type { Route as t } from "./+types.route";
+import clickUrl from "./click.client.ts?url&no-inline";
 
 export const loader = ({ context: [env] }: t.LoaderArgs) => {
   const apiUrl = env.FAKE_STORE_API_URL || "https://fakestoreapi.com";
@@ -157,7 +146,7 @@ export default function Route({
             </h3>
             <button
               bind={{ count: clickCount }}
-              on={click}
+              on={[["click", clickUrl]]}
               class={clsx(
                 "rounded-lg",
                 "bg-blue-600",
@@ -167,8 +156,7 @@ export default function Route({
                 { "hover:bg-blue-700": true },
               )}
             >
-              Clicked{" "}
-              <span class="tabular-nums">{clickCount.get()}</span>
+              Clicked <span class="tabular-nums">{clickCount.get()}</span>
             </button>
           </div>
         </div>

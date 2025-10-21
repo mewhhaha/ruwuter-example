@@ -3,23 +3,10 @@ import { cloudflare } from "@cloudflare/vite-plugin";
 import { generate } from "@mewhhaha/ruwuter/fs-routes";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
-import { existsSync } from "node:fs";
 import { PluginOption } from "vite";
 
 export default defineConfig({
-  plugins: [
-    // cloudflare({ viteEnvironment: { name: "ssr" } }),
-    cloudflare(),
-    tailwindcss(),
-    ruwuter(),
-  ],
-  optimizeDeps: {
-    include: [
-      "@mewhhaha/ruwuter/components",
-      "@mewhhaha/ruwuter/jsx-dev-runtime",
-      "clsx",
-    ],
-  },
+  plugins: [cloudflare(), tailwindcss(), ruwuter()],
   build: {
     target: "esnext",
     rollupOptions: {
@@ -47,18 +34,20 @@ export default defineConfig({
  * - Fixes import.meta.url references in the build output
  */
 function ruwuter(): PluginOption {
-  const appFolder = "./app";
+  const appFolder = "app";
 
   return {
     name: "vite-plugin-ruwuter",
+    async configResolved() {
+      await generate(appFolder);
+    },
 
     // Development: Generate and watch for route changes
     configureServer(server) {
-      // Generate routes on server start only if missing
-      generate(appFolder);
-
       // Watch for route structure changes and regenerate routes
-      const routesDir = path.resolve(path.join(appFolder, "routes"));
+      const routesDir = path.resolve(
+        path.join(import.meta.dirname, appFolder, "routes"),
+      );
       server.watcher.on("all", (event, file) => {
         // Only react to add/remove events under app/routes
         if (
@@ -74,7 +63,8 @@ function ruwuter(): PluginOption {
 
         // Ignore edits to the generated file itself
         if (
-          resolvedFilePath === path.resolve(path.join(appFolder, "routes.mts"))
+          resolvedFilePath ===
+          path.resolve(path.join(import.meta.dirname, appFolder, "routes.mts"))
         )
           return;
 

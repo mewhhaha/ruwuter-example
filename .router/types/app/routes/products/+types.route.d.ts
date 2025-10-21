@@ -4,7 +4,7 @@ import type {
   InferHeadersFunction,
   InferLoaderArgs,
 } from "@mewhhaha/ruwuter/types";
-import * as r from "./products.js";
+import * as r from "./route.js";
 
 export type RouteParams = Record<never, never>;
 

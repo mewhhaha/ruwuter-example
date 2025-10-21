@@ -1,11 +1,11 @@
 import { routes } from "../app/routes.mts";
 import { Router } from "@mewhhaha/ruwuter";
+import type { Env } from "@mewhhaha/ruwuter";
 
-const handler: ExportedHandler<import("@mewhhaha/ruwuter").Env> = {
-  fetch(request, env, ctx) {
-    const router = Router(routes);
-    return router.handle(request, env, ctx);
-  },
+const router = Router(routes);
+
+const handler: ExportedHandler<Env> = {
+  fetch: router.handle,
 };
 
 export default handler;
